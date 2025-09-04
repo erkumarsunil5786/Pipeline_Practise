@@ -21,32 +21,44 @@ jobs:
       run: terraform init
       working-directory: Parent_Module/Dev
 
-  Code-Scaning:
-    name: Security Scanning
+  Terraform-Plan:
+    name: Terraform Plan
     runs-on: my-runner
     needs: Terraform-Init
-    
-    steps: 
-    - name: TFlinit Setup
-      shell: powershell
-      run: |
-       Invoke-WebRequest -Uri "https://github.com/terraform-linters/tflint/releases/latest/download/tflint_windows_amd64.zip" -OutFile "tflint.zip"
-       Expand-Archive -Path "tflint.zip" -DestinationPath "$env:USERPROFILE\tflint"
-       $env:Path += ";$env:USERPROFILE\tflint"
-       tflint --version
-
-    - name: Run tflint for code quality
-      run: tflint
+    steps:
+    - name: Azure Login 
+      uses: Azure/login@v2.3.0
+      with:
+        creds: ${{ secrets.MYAZURECREDENTIALS }}
+      
+    - name: Terraform init
+      run: terraform init
       working-directory: Parent_Module/Dev
+      
+    - name: Terraform Plan
+      run: terraform plan
+      working-directory: Parent_Module/Dev
+  
+  Terraform-Apply:
+    name: Terraform-Apply
+    runs-on: my-runner
+    needs: Terraform-Plan
+    environment: erkumarsunil5786
+    steps:
+    - name: Azure Login 
+      uses: Azure/login@v2.3.0
+      with:
+        creds: ${{ secrets.MYAZURECREDENTIALS }}
+      
+    - name: Terraform init
+      run: terraform init
+      working-directory: Parent_Module/Dev
+      
+    - name: Terraform Apply
+      run: terraform apply --auto-approve
+      working-directory: Parent_Module/Dev    
     
-    # - name: Install tfsec For Security
-    #   run: |
-    #     curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
-    #     tfsec --version
-
-    # - name: Run tfsec for security scan
-    #   run: tfsec .
-    #   working-directory: Parent_Module/Dev
+   
       
       
       
