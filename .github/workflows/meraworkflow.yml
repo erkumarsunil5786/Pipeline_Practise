@@ -28,16 +28,18 @@ jobs:
       working-directory: Parent_Module/Dev
 
   Code-Scaning:
-    - name: Setup TfLint
-      runs-on: my-runner
-      needs: Terraform-Init
+    name: Setup TfLint
+    runs-on: my-runner
+    needs: Terraform-Init
+    steps:
+    - name: TFlinit Setup
       run: |
-        curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+       curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
     
     - name: Run tflint for code quality
       run: tflint
     
-    - name: Install tfsec
+    - name: Install tfsec For Security
       run: |
         curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
 
