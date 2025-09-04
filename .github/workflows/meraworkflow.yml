@@ -12,13 +12,16 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v5.0.0
+<<<<<<< HEAD
       
+=======
+>>>>>>> c663976b4abed388e5af088d8d83674497190819
     - name: Azure Login 
       uses: Azure/login@v2.3.0
       with:
         creds: ${{ secrets.MYAZURECREDENTIALS }}
       
-    - name: Terraform init/plan
+    - name: Terraform init
       run: terraform init
       working-directory: Parent_Module/Dev
 
@@ -26,10 +29,12 @@ jobs:
     name: Security Scanning
     runs-on: my-runner
     needs: Terraform-Init
-    steps:
+    
+    steps: 
     - name: TFlinit Setup
       shell: powershell
       run: |
+<<<<<<< HEAD
        $tflintDir = "$env:USERPROFILE\tflint"
        if (Test-Path $tflintDir) {
        Remove-Item $tflintDir -Recurse -Force
@@ -40,3 +45,28 @@ jobs:
        $env:Path += ";$tflintDir"
        & "$tflintDir\tflint.exe" --version
     
+=======
+       Invoke-WebRequest -Uri "https://github.com/terraform-linters/tflint/releases/latest/download/tflint_windows_amd64.zip" -OutFile "tflint.zip"
+       Expand-Archive -Path "tflint.zip" -DestinationPath "$env:USERPROFILE\tflint"
+       $env:Path += ";$env:USERPROFILE\tflint"
+       tflint --version
+
+    - name: Run tflint for code quality
+      run: tflint
+      working-directory: Parent_Module/Dev
+    
+    # - name: Install tfsec For Security
+    #   run: |
+    #     curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+    #     tfsec --version
+
+    # - name: Run tfsec for security scan
+    #   run: tfsec .
+    #   working-directory: Parent_Module/Dev
+      
+      
+      
+    
+ 
+
+>>>>>>> c663976b4abed388e5af088d8d83674497190819
