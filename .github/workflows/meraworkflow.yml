@@ -15,17 +15,17 @@ jobs:
      
     - name: HashiCorp-Setup Terraform
       uses: hashicorp/setup-terraform@v2.0.3
-        with:
-          terraform_version: 1.11.4
+      with:
+        terraform_version: 1.11.4
       
     - name: Azure Login 
       uses: Azure/login@v2.3.0
-        with:
-          creds: ${{ secrets.AZURECREDENTIAL }}
+      with:
+        creds: ${{ secrets.AZURECREDENTIAL }}
       
     - name: Terraform init/plan
       run: terraform init
-     working-directory: Parent_Module/Dev
+      working-directory: Parent_Module/Dev
 
                
       
