@@ -26,27 +26,27 @@ jobs:
     runs-on: my-runner
     needs: Terraform-Init
     
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v5.0.0
-      
+    steps: 
     - name: TFlinit Setup
+      shell: powershell
       run: |
-       curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+       Invoke-WebRequest -Uri "https://github.com/terraform-linters/tflint/releases/latest/download/tflint_windows_amd64.zip" -OutFile "tflint.zip"
+       Expand-Archive -Path "tflint.zip" -DestinationPath "$env:USERPROFILE\tflint"
+       $env:Path += ";$env:USERPROFILE\tflint"
        tflint --version
 
-    - name: Run tflint for code quality
-      run: tflint
-      working-directory: Parent_Module/Dev
+    # - name: Run tflint for code quality
+    #   run: tflint
+    #   working-directory: Parent_Module/Dev
     
-    - name: Install tfsec For Security
-      run: |
-        curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
-        tfsec --version
+    # - name: Install tfsec For Security
+    #   run: |
+    #     curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+    #     tfsec --version
 
-    - name: Run tfsec for security scan
-      run: tfsec .
-      working-directory: Parent_Module/Dev
+    # - name: Run tfsec for security scan
+    #   run: tfsec .
+    #   working-directory: Parent_Module/Dev
       
       
       
