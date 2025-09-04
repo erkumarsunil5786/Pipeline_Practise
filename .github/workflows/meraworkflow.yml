@@ -12,10 +12,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v5.0.0
-<<<<<<< HEAD
-      
-=======
->>>>>>> c663976b4abed388e5af088d8d83674497190819
     - name: Azure Login 
       uses: Azure/login@v2.3.0
       with:
@@ -34,18 +30,6 @@ jobs:
     - name: TFlinit Setup
       shell: powershell
       run: |
-<<<<<<< HEAD
-       $tflintDir = "$env:USERPROFILE\tflint"
-       if (Test-Path $tflintDir) {
-       Remove-Item $tflintDir -Recurse -Force
-       }
-       Invoke-WebRequest -Uri "https://github.com/terraform-linters/tflint/releases/latest/download/tflint_windows_amd64.zip" -OutFile "tflint.zip"
-       New-Item -ItemType Directory -Path $tflintDir
-       Expand-Archive -Path "tflint.zip" -DestinationPath $tflintDir -Force
-       $env:Path += ";$tflintDir"
-       & "$tflintDir\tflint.exe" --version
-    
-=======
        Invoke-WebRequest -Uri "https://github.com/terraform-linters/tflint/releases/latest/download/tflint_windows_amd64.zip" -OutFile "tflint.zip"
        Expand-Archive -Path "tflint.zip" -DestinationPath "$env:USERPROFILE\tflint"
        $env:Path += ";$env:USERPROFILE\tflint"
@@ -69,4 +53,3 @@ jobs:
     
  
 
->>>>>>> c663976b4abed388e5af088d8d83674497190819
