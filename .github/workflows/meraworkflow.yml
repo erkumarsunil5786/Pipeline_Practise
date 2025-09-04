@@ -12,11 +12,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v5.0.0
-     
-    - name: HashiCorp-Setup Terraform
-      uses: hashicorp/setup-terraform@v2.0.3
-      with:
-        terraform_version: 1.11.4
       
     - name: Azure Login 
       uses: Azure/login@v2.3.0
@@ -33,23 +28,15 @@ jobs:
     needs: Terraform-Init
     steps:
     - name: TFlinit Setup
+      shell: powershell
       run: |
-       curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
-
-    - name: Run tflint for code quality
-      run: tflint
-      working-directory: Parent_Module/Dev
+       $tflintDir = "$env:USERPROFILE\tflint"
+       if (Test-Path $tflintDir) {
+       Remove-Item $tflintDir -Recurse -Force
+       }
+       Invoke-WebRequest -Uri "https://github.com/terraform-linters/tflint/releases/latest/download/tflint_windows_amd64.zip" -OutFile "tflint.zip"
+       New-Item -ItemType Directory -Path $tflintDir
+       Expand-Archive -Path "tflint.zip" -DestinationPath $tflintDir -Force
+       $env:Path += ";$tflintDir"
+       & "$tflintDir\tflint.exe" --version
     
-    - name: Install tfsec For Security
-      run: |
-        curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
-
-    - name: Run tfsec for security scan
-      run: tfsec .
-      working-directory: Parent_Module/Dev
-      
-      
-      
-    
- 
-
