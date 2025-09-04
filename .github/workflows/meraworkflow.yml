@@ -35,9 +35,9 @@ jobs:
        $env:Path += ";$env:USERPROFILE\tflint"
        tflint --version
 
-    # - name: Run tflint for code quality
-    #   run: tflint
-    #   working-directory: Parent_Module/Dev
+    - name: Run tflint for code quality
+      run: tflint
+      working-directory: Parent_Module/Dev
     
     # - name: Install tfsec For Security
     #   run: |
