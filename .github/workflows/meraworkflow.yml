@@ -2,8 +2,8 @@ name:  My First Workflow For RG Creation
 on:  
   push:
     branches:
-      - main:
-      - feature/*:
+      - main
+      - feature/*
   
 jobs:
   Terraform-Init-Plan:
