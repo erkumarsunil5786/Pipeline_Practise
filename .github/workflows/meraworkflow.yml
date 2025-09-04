@@ -21,10 +21,13 @@ jobs:
     - name: Azure Login 
       uses: Azure/login@v2.3.0
         with:
-          cred: 
+          cred: ${{ secrets.AZURECREDENTIAL }}
+      
+    - name: Terraform init/plan
+      run: terraform init
+     working-directory: Parent_Module/Dev
 
-   
-          
+               
       
       
     
