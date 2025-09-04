@@ -21,7 +21,7 @@ jobs:
     - name: Azure Login 
       uses: Azure/login@v2.3.0
       with:
-        creds: ${{ secrets.AZURECREDENTIAL }}
+        creds: ${{ secrets.MYAZURECREDENTIALS }}
       
     - name: Terraform init/plan
       run: terraform init
