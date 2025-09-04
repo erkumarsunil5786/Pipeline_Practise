@@ -1,2 +1,32 @@
-name: My First Workflow For RG Creation
-on: 
+name:  My First Workflow For RG Creation
+on:  
+  push:
+    branches:
+      - main:
+      - feature/*:
+  
+jobs:
+  Terraform-Init-Plan:
+    name: Terraform Init,Fmt,Validate & Plan
+    runs-on: self-hosted
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5.0.0
+     
+    - name: HashiCorp-Setup Terraform
+      uses: hashicorp/setup-terraform@v2.0.3
+        with:  
+          terraform_version: 1.11.4
+      
+    - name: Azure Login 
+      uses: Azure/login@v2.3.0
+        with:
+          cred: 
+
+   
+          
+      
+      
+    
+ 
+
